@@ -5,7 +5,8 @@ import './BookItem.css'
 class BookItem extends React.Component {
     render() {
         return (
-            <div>
+            <div> 
+                
                 <Carousel>
                    {this.props.booksArr.map((item) => {
                       return(
