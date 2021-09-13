@@ -7,42 +7,22 @@ class BookItem extends React.Component {
         return (
             <div>
                 <Carousel>
-                    <Carousel.Item>
-                        <img
-                            className="d-block w-100"
-                            src={this.props.item.url}
-                            alt="First slide"
-                        />
-                        <Carousel.Caption>
-                            <h1>{this.props.item.title}</h1>
-                            <p>{this.props.item.description}</p>
-                            <p>{this.props.item.status}</p>
-                        </Carousel.Caption>
-                    </Carousel.Item>
-                    <Carousel.Item>
-                        <img
-                            className="d-block w-100"
-                            src={this.props.item.url}
-                            alt="First slide"
-                        />
-                        <Carousel.Caption>
-                            <h1>{this.props.item.title}</h1>
-                            <p>{this.props.item.description}</p>
-                            <p>{this.props.item.status}</p>
-                        </Carousel.Caption>
-                    </Carousel.Item>
-                    <Carousel.Item>
-                        <img
-                            className="d-block w-100"
-                            src={this.props.item.url}
-                            alt="First slide"
-                        />
-                        <Carousel.Caption>
-                            <h1>{this.props.item.title}</h1>
-                            <p>{this.props.item.description}</p>
-                            <p>{this.props.item.status}</p>
-                        </Carousel.Caption>
-                    </Carousel.Item>
+                   {this.props.booksArr.map((item) => {
+                      return(
+                      <Carousel.Item>
+                      <img
+                          className="d-block w-100"
+                          src={item.url}
+                          alt="First slide"
+                      />
+                      <Carousel.Caption>
+                          <h1>{item.title}</h1>
+                          <p>{item.description}</p>
+                          <p>{item.status}</p>
+                      </Carousel.Caption>
+                  </Carousel.Item>
+                  )
+                   })}
                 </Carousel>
             </div>
         )
