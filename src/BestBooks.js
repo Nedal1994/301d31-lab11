@@ -7,6 +7,7 @@ import BookCard from './BookCard'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
+import BookUpdateForm from './BookUpdateForm';
 
 // import BookItem from './BookItem'
 
@@ -16,7 +17,12 @@ class MyFavoriteBooks extends React.Component {
     super(props)
     this.state = {
       booksArr: [],
-      show: false
+      show: false,
+      showFlag: false,
+      title:'',
+      description:'',
+      status:'',
+      bookId:''
     }
   }
 
@@ -45,7 +51,8 @@ class MyFavoriteBooks extends React.Component {
       email: email
     }
     axios
-      .post(`http://localhost:3030/addBook`, obj)
+      // .post(`http://localhost:3030/addBook`, obj)
+      .post(`https://lap13.herokuapp.com/addBook`, obj)
       .then(result => {
         this.setState({
           booksArr: result.data
@@ -61,7 +68,8 @@ class MyFavoriteBooks extends React.Component {
     const { user } = this.props.auth0
     const email = user.email
     axios
-      .delete(`http://localhost:3030/deleteBook/${id}?email=${email}`)
+      // .delete(`http://localhost:3030/deleteBook/${id}?email=${email}`)
+      .delete(`https://lap13.herokuapp.com/deleteBook/${id}?email=${email}`)
       .then(result => {
         this.setState({
           booksArr: result.data
@@ -73,21 +81,53 @@ class MyFavoriteBooks extends React.Component {
   }
   handleClose = () => {
     this.setState({
-      show: false
+      show: false,
+      showFlag:false
     })
   }
   handleShow = () => {
     this.setState({
-      show: true
+      show: true,
+    })
+  }
+  showUpdateForm = (item)=>{
+    this.setState({
+      showFlag:true,
+      title:item.title,
+      description:item.description,
+      status:item.status,
+      bookId:item._id
     })
   }
 
+  updateBook = (event) =>{
+    event.preventDefault()
+    const { user } = this.props.auth0
+    const email = user.email
+    const obj = {
+      title: event.target.title.value,
+      description: event.target.description.value,
+      status: event.target.status.value,
+      email:email
+    }
+    axios
+      // .put(`http://localhost:3030/updateBook/${this.state.bookId}`,obj)
+      .put(`https://lap13.herokuapp.com/updateBook/${this.state.bookId}`,obj)
+      .then(result => {
+        this.setState({
+          booksArr: result.data,
+          showFlag:false
+        })
 
+      })
+      .catch(error => {
+        console.log('Error');
+      })
+  }
+  
 
   render() {
     return (
-
-
       <>
         <Button variant="primary" onClick={this.handleShow}>
           add a book
@@ -114,15 +154,28 @@ class MyFavoriteBooks extends React.Component {
               </Form.Select>
             </Form.Group>
             <Button variant="primary" type="submit">
-              Submit
+              Add book
             </Button>
           </Form>
         </Modal>
         {this.state.booksArr.map((item) => {
           return (
-            <BookCard item={item} deleteBook={this.deleteBook} />
+            <BookCard 
+            item={item} 
+            deleteBook={this.deleteBook} 
+            showUpdateForm={this.showUpdateForm}
+            />
           )
         })}
+
+        <BookUpdateForm
+        show = {this.state.showFlag}
+        handleClose = {this.handleClose}
+        title={this.state.title}
+        description={this.state.description}
+        status={this.state.status}
+        updateBook ={this.updateBook}
+        />
       </>
     )
   }
