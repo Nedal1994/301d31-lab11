@@ -51,7 +51,6 @@ class MyFavoriteBooks extends React.Component {
       email: email
     }
     axios
-      // .post(`http://localhost:3030/addBook`, obj)
       .post(`https://lap13.herokuapp.com/addBook`, obj)
       .then(result => {
         this.setState({
@@ -68,7 +67,6 @@ class MyFavoriteBooks extends React.Component {
     const { user } = this.props.auth0
     const email = user.email
     axios
-      // .delete(`http://localhost:3030/deleteBook/${id}?email=${email}`)
       .delete(`https://lap13.herokuapp.com/deleteBook/${id}?email=${email}`)
       .then(result => {
         this.setState({
@@ -111,7 +109,6 @@ class MyFavoriteBooks extends React.Component {
       email:email
     }
     axios
-      // .put(`http://localhost:3030/updateBook/${this.state.bookId}`,obj)
       .put(`https://lap13.herokuapp.com/updateBook/${this.state.bookId}`,obj)
       .then(result => {
         this.setState({
